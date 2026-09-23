@@ -1,0 +1,47 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    env_file: .env
+    enviorment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+    ports:
+      - 8080:80
+    volumes:
+        - wordpress_data:/var/www/html
+
+  Compose:
+    image: axllent/mailpit:latest
+    volumes:
+    - ./mailpit_data:/var/mailpit
+    ports:
+      - 1025:1025
+      - 8025:8025
+    enviorment:
+      MAILPIT_USER: ${MAILPIT_USER}
+      MAILPIT_PASSWORD: ${MAILPIT_PASSWORD}
+      MP_MAX_MESSAGES: $500
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      
+  mailpit_data:
+    driver: local
+
+
+
+  db:
+    image: mariadb:11.4
+    environment:
+      MYSQL_DATABASE: 'wordpress'
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
