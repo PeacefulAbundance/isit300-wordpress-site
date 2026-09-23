@@ -12,6 +12,7 @@ services:
     volumes:
         - wordpress_data:/var/www/html
 
+  mailpit:
     image: axllent/mailpit:latest
     volumes:
     - ./mailpit_data:/var/mailpit
