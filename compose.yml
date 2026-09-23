@@ -19,7 +19,8 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
-    enviorment:
+
+  environment:
       MAILPIT_USER: ${MAILPIT_USER}
       MAILPIT_PASSWORD: ${MAILPIT_PASSWORD}
       MP_MAX_MESSAGES: $500
